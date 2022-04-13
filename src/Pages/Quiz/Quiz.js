@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Quiz.css";
-import Timer from './Timer'
+import Timer from '../Timer/Timer'
 import { isCompositeComponentWithType } from "react-dom/test-utils";
 
 class Quiz extends React.Component{
@@ -11,7 +11,7 @@ class Quiz extends React.Component{
             qNum: 1,
             name: 'answer-btn1',
             qBox: {
-                question: "What's 1+1",
+                question: "1+1",
                 A: "2",
                 B: "3",
                 C: "4",

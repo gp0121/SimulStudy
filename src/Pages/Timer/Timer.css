@@ -1,13 +1,13 @@
 h1 {
     font-family: "Roboto";
     text-align: center;
-    margin-bottom: 40px;
   }
   
   .timer-wrapper {
     margin-top: 20px;
     margin-left: 15px;
-    display: flex;
+    height: 100px;
+    display:flex;
     justify-content: center;
   }
   

@@ -27,14 +27,13 @@ main{
     left: 0;
     text-align: center;
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     background: radial-gradient(gray, black);
     display: grid;
     border-radius: 10px;
   }
   
 .questions-section{
-    margin-top: 15px;
     margin-left: auto;
     margin-right: auto;
     width: 75%;
@@ -44,55 +43,57 @@ main{
   
 #question-number, #ask-question{
     text-align: center;
+    margin-top: auto;
     font-style: italic;
     font-size: 30px;
 }
   
 #question-answers{
     display: block;
-    margin: 10px;
+    height: 100%;
+    margin: 1%;
     flex-direction: column;
-    margin-top: 10px;
+    margin-top: 1%;
 }
 
 .correctAnswer{
     text-align: center;
     color: #F5F6FA;
     background-color: green;
-    width: 700px;
-    height: 200px;
+    width: 40%;
+    height: 40%;
     border: none;
     border-radius: 10px;
-    margin-right: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-right: 2%;
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 .wrongAnswer{
     text-align: center;
     color: #F5F6FA;
     background-color: red;
-    width: 700px;
-    height: 200px;
+    width: 40%;
+    height: 40%;
     border: none;
     border-radius: 10px;
-    margin-right: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-right: 2%;
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 .answer-btn1{
     text-align: center;
     color: #F5F6FA;
     background-color: #7d8063;
-    width:700px;
-    height: 200px;
+    width:40%;
+    height: 40%;
     border: none;
     display: inline-block;
     border-radius: 10px;
-    margin-right: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-right: 2%;
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 #question-answers button:hover{
