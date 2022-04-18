@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:700');
+
+*{  
+    border: 0;
+    padding: 0;
+}
+
+html{
+    height: 100%
+}
+
+body {
+    min-height: 100%;
+    font-family: 'Poppins', sans-serif;
+    color: #4f5363
+}
+
+main{
+    min-height: 100%
+}
+
+.questions-card{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(gray, black);
+    display: grid;
+    border-radius: 10px;
+  }
+  
+.questions-section{
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    border-radius: 25px;
+    background-color: white;
+}
+  
+#question-number, #ask-question{
+    text-align: center;
+    margin-top: auto;
+    font-style: italic;
+    font-size: 30px;
+}
+  
+#question-answers{
+    display: block;
+    height: 100%;
+    margin: 1%;
+    flex-direction: column;
+    margin-top: 1%;
+}
+
+.correctAnswer{
+    text-align: center;
+    color: #F5F6FA;
+    background-color: green;
+    width: 40%;
+    height: 40%;
+    border: none;
+    border-radius: 10px;
+    margin-right: 2%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.wrongAnswer{
+    text-align: center;
+    color: #F5F6FA;
+    background-color: red;
+    width: 40%;
+    height: 40%;
+    border: none;
+    border-radius: 10px;
+    margin-right: 2%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.answer-btn1{
+    text-align: center;
+    color: #F5F6FA;
+    background-color: #7d8063;
+    width:40%;
+    height: 40%;
+    border: none;
+    display: inline-block;
+    border-radius: 10px;
+    margin-right: 2%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+#question-answers button:hover{
+    cursor: pointer;
+}
+ 
+#question-answers button p{
+    padding-left: 20px;
+    font-size: 18px;
+}
+
+.questions-submit{
+    text-align: right;
+}
+  
+.questions-submit input{
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    color: #F5F6FA;
+    background: #220A20;
+}
+  
+.questions-submit input:hover{
+    cursor: pointer;
+}

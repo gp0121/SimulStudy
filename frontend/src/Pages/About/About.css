@@ -1,0 +1,33 @@
+body {
+    background-repeat:no-repeat;
+    background-size: 100%;
+    background-image: radial-gradient(farthest-corner at 40px 40px,
+      #111 20%, #333 100%,#ddd 100%);
+}
+
+.navbar {
+    background-color:white;
+}
+
+.header-section{
+    padding-top: 6%;
+    position: center;
+    width: 40%;
+    padding-right: auto;
+    padding-left: auto;
+    margin:auto;
+    text-align: center;
+    font-family: 'Josefin Sans';
+    color: white;
+    font-size: 160%;
+}
+
+.howto-section {
+    padding: 6%;
+}
+
+.howto {
+    width: 50%;
+    float: left;
+    padding: 2%;
+}
