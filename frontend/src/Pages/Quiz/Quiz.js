@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Timer from "../Timer/Timer";
 import "./Quiz.css";
 
@@ -7,12 +7,17 @@ export default function Quiz() {
   const { id } = useParams();
   const [quiz, setQuiz] = useState();
   const [question, setQuestion] = useState();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchQuiz = async () => {
       const resp = await fetch(`/quizzes/${id}`);
       const respJSON = await resp.json();
       const quiz = respJSON.data;
-      setQuiz(quiz);
+      setQuiz({
+        ...quiz,
+        currentQuestionIndex: 0,
+        lastQuestionIndex: quiz.questions.length - 1,
+      });
       setQuestion({
         ...quiz.questions[0],
         number: 1,
@@ -23,17 +28,69 @@ export default function Quiz() {
     fetchQuiz();
   }, []);
 
-  const handleChoiceClick = (choiceIndex) => {
+  const handleChoiceClick = (event) => {
+    const choiceIndex = event.currentTarget.id;
     const correctChoice = question.correctChoice;
     const chosenChoice = question.choices[choiceIndex];
-    if (correctChoice == chosenChoice) {
+    const { questions, currentQuestionIndex } = quiz;
+    if (correctChoice === chosenChoice) {
       // guessed right
-      setQuestion({ ...question, answeredCorrect: true });
+      const updatedQuestion = { ...question, answeredCorrect: true };
+      const updatedQuestions = [
+        ...questions.slice(0, currentQuestionIndex),
+        updatedQuestion,
+        ...questions.slice(currentQuestionIndex + 1),
+      ];
+      console.log("Updated Questions ", updatedQuestions);
+      console.log("Updated Question ", updatedQuestion);
+
+      setQuiz({
+        ...quiz,
+        questions: updatedQuestions,
+      });
+      setQuestion(updatedQuestion);
     } else {
       // guessed wrong
-      setQuestion({ ...question, answeredCorrect: false });
+      const updatedQuestion = { ...question, answeredCorrect: false };
+
+      setQuestion(updatedQuestion);
     }
   };
+
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  useEffect(async () => {
+    if (question?.answeredCorrect !== undefined) {
+      await sleep(1000);
+      // question was answered
+      const { questions, currentQuestionIndex, lastQuestionIndex } = quiz;
+      if (currentQuestionIndex === lastQuestionIndex) {
+        // quiz is over
+        // store quiz result
+        const resp = await fetch("/quiz-results", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(quiz),
+        })
+          .then((response) => response.json())
+          .then((resp) => {
+            navigate(`/quiz-results/${resp._id}`);
+          });
+      } else {
+        const nextQuestionIndex = currentQuestionIndex + 1;
+        setQuiz({
+          ...quiz,
+          currentQuestionIndex: nextQuestionIndex,
+          _id: undefined,
+        });
+        setQuestion(questions[nextQuestionIndex]);
+      }
+    }
+  }, [question?.answeredCorrect]);
 
   const determineClass = (choice) => {
     if (choice == undefined) return;
@@ -46,7 +103,7 @@ export default function Quiz() {
       return "wrongAnswer";
     }
   };
-
+  console.log(quiz);
   return (
     <div>
       <main>
@@ -56,31 +113,35 @@ export default function Quiz() {
             <div id="question-number">
               <p>Question {question?.number}:</p>
             </div>
-            <div id="ask-question">
+            <div id="ask-question" className="text-black">
               <p>{question?.question}</p>
             </div>
           </div>
           <div className="answer-section">
             <div id="question-answers">
               <button
+                id="0"
                 className={determineClass(question?.choices[0])}
                 onClick={handleChoiceClick}
               >
                 <p>{question?.choices[0]}</p>
               </button>
               <button
+                id="1"
                 className={determineClass(question?.choices[1])}
                 onClick={handleChoiceClick}
               >
                 <p>{question?.choices[1]}</p>
               </button>
               <button
+                id="2"
                 className={determineClass(question?.choices[2])}
                 onClick={handleChoiceClick}
               >
                 <p>{question?.choices[2]}</p>
               </button>
               <button
+                id="3"
                 className={determineClass(question?.choices[3])}
                 onClick={handleChoiceClick}
               >
@@ -93,38 +154,3 @@ export default function Quiz() {
     </div>
   );
 }
-
-// class Quiz extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       index: 0,
-//       qNum: 1,
-//       name: "answer-btn1",
-//       qBox: {
-//         question: "1+1",
-//         A: "2",
-//         B: "3",
-//         C: "4",
-//         D: "5",
-//         answer: "2",
-//       },
-//     };
-
-//     fetch("http://localhost:3000/teachers").then((resp) => console.log(resp));
-//   }
-
-//   correct = () => {
-//     this.setState({ name: "correctAnswer" });
-//   };
-//   wrong = () => {
-//     this.setState({ name: "wrongAnswer" });
-//   };
-//   render() {
-//     return (
-
-//     );
-//   }
-// }
-
-// export default Quiz;

@@ -22,11 +22,12 @@ li {
   /*box-shadow: rgba(50, 50, 93, 0.23) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;*/
 }
 .logo {
-    background-image: url(./Book.png);
+  background-image: url(./Book.png);
 }
 
-.title{
-    font-family: "Lucida Handwriting", cursive;
+.title {
+  font-family: "Lucida Handwriting", cursive;
+  color: black;
 }
 .nav-links {
   display: flex;
@@ -73,7 +74,8 @@ button {
     position: absolute;
     display: block;
     list-style: none;
-    box-shadow: rgba(50, 50, 93, 0.23) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    box-shadow: rgba(50, 50, 93, 0.23) 0px 50px 100px -20px,
+      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     left: 0;
     top: 10%;
     transition: all 0.5s ease-in-out;

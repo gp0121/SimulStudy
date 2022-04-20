@@ -15,6 +15,7 @@ async function loginUser(credentials) {
 export default function Login({ setToken }) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  const [userType, setUserType] = useState("student");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,14 +23,42 @@ export default function Login({ setToken }) {
     const token = await loginUser({
       username,
       password,
+      userType,
+    }).then((response) => {
+      localStorage.setItem("user", userType);
+      const redirectURL = userType === "student" ? "/quizzes" : "/new-quiz";
+      setToken(response.token);
+      navigate(redirectURL);
     });
-    setToken(token);
   };
 
   return (
     <div className="login-wrapper">
       <h1>Please Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="login-wrapper-inner">
+        <p>Student or Teacher</p>
+        <label>
+          <p>Student</p>
+          <input
+            value={userType}
+            name="userType"
+            onChange={({ target }) => setUserType(target.id)}
+            type="radio"
+            checked={userType === "student"}
+            id="student"
+          />
+        </label>
+        <label>
+          <p>Teacher</p>
+          <input
+            value={userType}
+            name="userType"
+            onChange={({ target }) => setUserType(target.id)}
+            type="radio"
+            checked={userType === "teacher"}
+            id="teacher"
+          />
+        </label>
         <label>
           <p>Username</p>
           <input
@@ -47,7 +76,9 @@ export default function Login({ setToken }) {
           />
         </label>
         <div>
-          <button type="submit">Submit</button>
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
         </div>
         {/* <Link to='register'>
           {"Don't have an account? Register here!"}

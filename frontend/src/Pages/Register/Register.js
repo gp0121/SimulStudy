@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Register.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -7,6 +8,8 @@ export default function Register() {
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState("student");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,20 +21,50 @@ export default function Register() {
       username,
       password,
     };
-    const resp = await fetch("/teachers", {
+    const route = userType === "student" ? "/students" : "/teachers";
+    const resp = await fetch(route, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newTeacher),
-    });
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        localStorage.setItem("user", userType);
+        const redirectURL = userType === "student" ? "/quizzes" : "/new-quiz";
+        navigate(redirectURL);
+      });
   };
-
+  console.log(userType);
   return (
     <div className="login-wrapper">
       <h1>Please Register</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="login-wrapper-inner">
+        <p>Student or Teacher</p>
+        <label>
+          <p>Student</p>
+          <input
+            value={userType}
+            name="userType"
+            onChange={({ target }) => setUserType(target.id)}
+            type="radio"
+            checked={userType === "student"}
+            id="student"
+          />
+        </label>
+        <label>
+          <p>Teacher</p>
+          <input
+            value={userType}
+            name="userType"
+            onChange={({ target }) => setUserType(target.id)}
+            type="radio"
+            checked={userType === "teacher"}
+            id="teacher"
+          />
+        </label>
         <label>
           <p>Email</p>
           <input
@@ -73,7 +106,9 @@ export default function Register() {
           />
         </label>
         <div>
-          <button type="submit">Submit</button>
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
         </div>
       </form>
     </div>

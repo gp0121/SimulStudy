@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function NewQuiz() {
   const [title, setTitle] = useState("");
@@ -8,6 +9,9 @@ export default function NewQuiz() {
   const [choiceC, setChoiceC] = useState("");
   const [choiceD, setChoiceD] = useState("");
   const [correctChoice, setCorrectChoice] = useState("");
+  const [questions, setQuestions] = useState([]);
+  const counterRef = useRef(1);
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -16,6 +20,12 @@ export default function NewQuiz() {
     for (let index = 0; index < 8; index++) {
       pin += Math.floor(Math.random() * 10);
     }
+    const newQuestion = {
+      id: counterRef.current++,
+      question,
+      choices: [choiceA, choiceB, choiceC, choiceD],
+      correctChoice,
+    };
 
     fetch("/quizzes", {
       method: "POST",
@@ -25,16 +35,43 @@ export default function NewQuiz() {
       body: JSON.stringify({
         pin,
         title,
-        questions: [
-          {
-            question,
-            choices: [choiceA, choiceB, choiceC, choiceD],
-            correctChoice,
-          },
-        ],
+        questions: questions.length === 0 ? [newQuestion] : questions,
       }),
+    }).then(() => {
+      setQuestions([]);
+      setQuestion("");
+      setChoiceA("");
+      setChoiceB("");
+      setChoiceC("");
+      setChoiceD("");
+      setCorrectChoice("");
+      navigate("/");
     });
   };
+
+  function handleAddQuestion(event) {
+    event.preventDefault();
+    if (question === "") {
+      return;
+    }
+    addQuestion();
+  }
+
+  function addQuestion() {
+    const newQuestion = {
+      id: counterRef.current++,
+      question,
+      choices: [choiceA, choiceB, choiceC, choiceD],
+      correctChoice,
+    };
+    setQuestions([...questions, newQuestion]);
+    setQuestion("");
+    setChoiceA("");
+    setChoiceB("");
+    setChoiceC("");
+    setChoiceD("");
+    setCorrectChoice("");
+  }
 
   return (
     <div>
@@ -51,7 +88,7 @@ export default function NewQuiz() {
         </div>
 
         <div>
-          <label>Question</label>
+          <label>{"Question " + counterRef.current}</label>
           <br />
           <input
             value={question}
@@ -104,6 +141,9 @@ export default function NewQuiz() {
           />
         </div>
 
+        <button onClick={handleAddQuestion}>Add question</button>
+        <br></br>
+        <br></br>
         <input type="submit" />
       </form>
     </div>

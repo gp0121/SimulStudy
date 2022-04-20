@@ -9,6 +9,7 @@ import Quiz from "./Pages/Quiz/Quiz.js";
 import Register from "./Pages/Register/Register.js";
 import NewQuiz from "./Pages/Quiz/NewQuiz";
 import Quizzes from "./Pages/Quiz/Quizzes";
+import { Result } from "./Pages/Quiz/Result";
 
 function storeToken(userToken) {
   sessionStorage.setItem("token", JSON.stringify(userToken));
@@ -22,7 +23,6 @@ function getToken() {
 
 function App() {
   const [token, setToken] = useState(getToken());
-
   return (
     <>
       <Navbar />
@@ -30,6 +30,7 @@ function App() {
         <Route path="/" element={<Home />}></Route>
         <Route path="/About" element={<About />}></Route>
         <Route path="/quizzes/:id" element={<Quiz />}></Route>
+        <Route path="/quiz-results/:id" element={<Result />}></Route>
         <Route path="/new-quiz" element={<NewQuiz />}></Route>
         <Route path="/quizzes" element={<Quizzes />}></Route>
         <Route path="/Register" element={<Register />}></Route>
